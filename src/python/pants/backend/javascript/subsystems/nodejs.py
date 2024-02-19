@@ -61,12 +61,12 @@ class NodeJS(Subsystem, TemplatedExternalToolOptionsMixin):
     options_scope = "nodejs"
     help = "The Node.js Javascript runtime (including Corepack)."
 
-    default_version = "v16.15.0"
+    default_version = "v20.11.1"
     default_known_versions = [
-        "v16.15.0|macos_arm64|ad8d8fc5330ef47788f509c2af398c8060bb59acbe914070d0df684cd2d8d39b|29126014",
-        "v16.15.0|macos_x86_64|a6bb12bbf979d32137598e49d56d61bcddf8a8596c3442b44a9b3ace58dd4de8|30561503",
-        "v16.15.0|linux_arm64|b4080b86562c5397f32da7a0723b95b1df523cab4c757688a184e3f733a7df56|21403276",
-        "v16.15.0|linux_x86_64|ebdf4dc9d992d19631f0931cca2fc33c6d0d382543639bc6560d31d5060a8372|22031988",
+        "v20.11.1|macos_arm64|e0065c61f340e85106a99c4b54746c5cee09d59b08c5712f67f99e92aa44995d|41902956",
+        "v20.11.1|macos_x86_64|c52e7fb0709dbe63a4cbe08ac8af3479188692937a7bd8e776e0eedfa33bb848|43536000",
+        "v20.11.1|linux_arm64|e34ab2fc2726b4abd896bcbff0250e9b2da737cbd9d24267518a802ed0606f3b|46350617",
+        "v20.11.1|linux_x86_64|bf3a779bef19452da90fb88358ec2c57e0d2f882839b20dc6afc297b6aafc0d7|46621070",
     ]
 
     default_url_template = "https://nodejs.org/dist/{version}/node-{version}-{platform}.tar"
@@ -137,7 +137,7 @@ class NodeJS(Subsystem, TemplatedExternalToolOptionsMixin):
     )
 
     package_managers = DictOption[str](
-        default={"npm": "8.5.5"},
+        default={"npm": "10.2.4"},
         help=help_text(
             """
             A mapping of package manager versions to semver releases.
