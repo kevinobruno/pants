@@ -545,15 +545,15 @@ async def prepare_corepack_tool(
     request: CorepackToolRequest, environment: NodeJSProcessEnvironment, nodejs: NodeJS
 ) -> CorepackToolDigest:
     version = request.version or nodejs.package_managers.get(request.tool)
-    if not version and request.input_digest == EMPTY_DIGEST:
+    if not version:
         raise ValueError(f"Could not determine tool version for {request.tool}.")
-    tool_spec = f"{request.tool}@{version}" if version else request.tool
+    tool_spec = f"{request.tool}@{version}"
     tool_description = tool_spec if version else f"default {tool_spec} version"
     result = await Get(
         ProcessResult,
         Process(
             argv=filter(
-                None, ("corepack", "prepare", tool_spec if version else None, "--activate")
+                None, ("corepack", "prepare", tool_spec, "--activate")
             ),
             description=f"Preparing configured {tool_description}.",
             input_digest=request.input_digest,

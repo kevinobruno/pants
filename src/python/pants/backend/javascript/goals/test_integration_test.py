@@ -35,6 +35,11 @@ def package_manager(request) -> str:
     return cast(str, request.param)
 
 
+@pytest.fixture(params=["npm", "pnpm", "yarn"])
+def package_managers(request) -> str:
+    return cast(str, request.param)
+
+
 @pytest.fixture
 def rule_runner(package_manager: str) -> RuleRunner:
     rule_runner = RuleRunner(
@@ -51,7 +56,12 @@ def rule_runner(package_manager: str) -> RuleRunner:
         ],
         objects=dict(package_json.build_file_aliases().objects),
     )
-    rule_runner.set_options([f"--nodejs-package-manager={package_manager}"], env_inherit={"PATH"})
+    rule_runner.set_options([
+            f"--nodejs-package-manager={package_manager}",
+            f"--nodejs-package-managers={package_managers}",
+        ],
+        env_inherit={"PATH"},
+    )
     return rule_runner
 
 

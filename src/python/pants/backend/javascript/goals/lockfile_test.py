@@ -185,7 +185,7 @@ def test_generates_lockfile_for_package_json_project(rule_runner: RuleRunner) ->
     assert json.loads(digest_contents[0].content) == {
         "name": "ham",
         "version": "0.0.1",
-        "lockfileVersion": 2,
+        "lockfileVersion": 3,
         "requires": True,
         "packages": {"": {"name": "ham", "version": "0.0.1"}},
     }
@@ -219,9 +219,8 @@ def test_generates_lockfile_for_npm_package_json_workspace(rule_runner: RuleRunn
     assert json.loads(digest_contents[0].content) == {
         "name": "ham",
         "version": "1.0.0",
-        "lockfileVersion": 2,
+        "lockfileVersion": 3,
         "requires": True,
-        "dependencies": {"spam": {"version": "file:a"}},
         "packages": {
             "": {"name": "ham", "version": "1.0.0", "workspaces": ["a"]},
             "a": {"name": "spam", "version": "0.1.0"},
@@ -231,7 +230,12 @@ def test_generates_lockfile_for_npm_package_json_workspace(rule_runner: RuleRunn
 
 
 def test_generates_lockfile_for_pnpm_package_json_workspace(rule_runner: RuleRunner) -> None:
-    rule_runner.set_options(["--nodejs-package-manager=pnpm"], env_inherit={"PATH"})
+    rule_runner.set_options([
+            "--nodejs-package-manager=pnpm",
+            "--nodejs-package-managers={'pnpm': '6.0.0'}",
+        ],
+        env_inherit={"PATH"},
+    )
     rule_runner.write_files(
         {
             "src/js/BUILD": "package_json()",
@@ -269,7 +273,13 @@ def test_generates_lockfile_for_pnpm_package_json_workspace(rule_runner: RuleRun
 
 
 def test_generates_lockfile_for_yarn_package_json_workspace(rule_runner: RuleRunner) -> None:
-    rule_runner.set_options(["--nodejs-package-manager=yarn"], env_inherit={"PATH"})
+    rule_runner.set_options([
+            "--nodejs-package-manager=yarn",
+            # "--nodejs-package-managers={'yarn': '1.22.19'}",
+            "--nodejs-package-managers={'yarn': '2.4.3'}",
+        ],
+        env_inherit={"PATH"},
+    )
     rule_runner.write_files(
         {
             "src/js/BUILD": "package_json()",
